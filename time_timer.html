@@ -98,6 +98,11 @@ fix the circle not closing (possibly by incrementing the counter by 2 so it ends
 */
   const secondHand = document.querySelector('.second-hand');
   const clockFace = document.querySelector('.clock-face');
+  let lastUpdate = 0
+  let counter = 0;
+  let start = new Date();
+  let startSeconds = start.getSeconds();
+  let startMinutes = start.getMinutes();
   for (var i=0; i<=61; i++){
     //stack 60 hands on the clock face
     var element = document.createElement('div');
@@ -107,6 +112,7 @@ fix the circle not closing (possibly by incrementing the counter by 2 so it ends
 
   function setMask() {
     const now = new Date();
+    console.log(now)
     const seconds = now.getSeconds();
     const secondsDegrees = ((seconds / 60) * 360) + 90;
     var minsHand2 = document.getElementById(61);
@@ -130,22 +136,43 @@ fix the circle not closing (possibly by incrementing the counter by 2 so it ends
     minsHand2.style.border="25px solid grey";
 
   }
-
-  function setDate() {
-    const now = new Date();
-    const seconds = now.getSeconds();
-    const secondsDegrees = ((seconds / 60) * 360) + 90;
-    var minsHand2 = document.getElementById(seconds);
-    // if minsHand2 does not have class "hand" add it.
-    minsHand2.className!=="hand"?minsHand2.classList.add("hand"):null;
-    // put it in position.
-    minsHand2.style.transform = `rotate(${secondsDegrees}deg)`;
-    minsHand2.style.zIndex=seconds;
+  function resetHands() {
+    console.log('reset hands function entered')
+    var minHands = document.querySelectorAll('.hand');
+    if (minHands.length) {
+      console.log(minHands)
+      for (let i =0; i<minHands.length; i++){
+        minHands[i].classList.remove("hand")    
+      }
+     } 
   }
-  setMask();
-  setInterval(setDate, 1000);
 
-  setDate();
+  function updateSeconds() {
+    const now = new Date();
+    let seconds = now.getSeconds();
+    
+    // if (seconds % 10 == 0) {
+    //   resetHands() //clear clock after 60s
+    // }
+
+    if (seconds != lastUpdate) {
+      lastUpdate = seconds;
+      // console.log(seconds)
+      (counter % 60 == 0) ? counter = 1:counter += 1
+      const secondsDegrees = ((counter / 60) * 360) + 90;
+      var minsHand2 = document.getElementById(counter);
+      // if minsHand2 does not have class "hand" add it.
+      minsHand2.className!=="hand"?minsHand2.classList.add("hand"):minsHand2.classList.remove("hand");
+      // put it in position.
+      minsHand2.style.transform = `rotate(${secondsDegrees}deg)`;
+      minsHand2.style.zIndex=seconds;
+    }
+    
+  }
+  // setMask();
+  setInterval(updateSeconds, 1000);
+
+  updateSeconds();
 
 </script>
 </body>
