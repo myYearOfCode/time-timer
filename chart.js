@@ -44,8 +44,8 @@ var myPieChart = new Chart(ctx,{
 });
 function changeData() {
   if (myPieChart.data.datasets[0].data[0] <100){
-    myPieChart.data.datasets[0].data[0] += 10;
-    myPieChart.data.datasets[0].data[1] -= 10;
+    myPieChart.data.datasets[0].data[0] += 1;
+    myPieChart.data.datasets[0].data[1] -= 1;
     myPieChart.update();
   }
 }
