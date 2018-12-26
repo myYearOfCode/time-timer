@@ -46,21 +46,22 @@
         inset 0 0 0 40px black,
         -3px 3px 10px 10px rgba(0,0,0,0.2);
     }
-      .clock-center {
-      position: relative;
-      width: 5rem;
-      height: 5rem;
-      border:200px white;
-      border-radius:55%;
-      margin:50px auto;
-      /*position: relative;*/
-      padding:2rem;
+
+    .clock-center {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background:grey;
+      /*border:200px white;*/
+      margin: auto;
+      border-radius:50%;
+      /*margin:50px auto;*/
+      top:50%;
+      right:50%;
+      /*padding:2rem;*/
       z-index:72;
       box-shadow:
-        0px 0px 0px 0px rgba(0,0,0,0.2),
-        inset 0 0 0 52px red; /*thickness of the face band*/
-/*        inset 0 0 0 40px black,*/
-        /*0px 0px 0px 0px rgba(0,0,0,0.2);*/
+        25px -25px 0px 0px red;
     }
 
     .clock-face {
@@ -108,7 +109,12 @@ fix the circle not closing (possibly by incrementing the counter by 2 so it ends
     var element = document.createElement('div');
     element.id=i;
     clockFace.appendChild(element);
+    let hub = document.createElement('div');
+    hub.classList.add("clock-center")
+    clockFace.appendChild(hub)
   }
+
+
 
   function setMask() {
     const now = new Date();
