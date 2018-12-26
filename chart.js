@@ -20,6 +20,10 @@ data = {
     // ]
 };
 
+// ask for user input on timer length
+let duration = prompt("how many seconds would you like to wait?");
+var start = Date.parse(new Date());
+var end = start + (duration * 1000);
 
 // For a pie chart
 var myPieChart = new Chart(ctx,{
@@ -27,7 +31,7 @@ var myPieChart = new Chart(ctx,{
     data: data,
     options: {
       animation: {
-        duration: 1000,
+        duration: 1000, //keep this == to the setInterval timeout
         easing: 'linear'
       },
 
@@ -42,46 +46,22 @@ var myPieChart = new Chart(ctx,{
       }
     }
 });
+
 function changeData() {
   if (myPieChart.data.datasets[0].data[0] <100){
-    myPieChart.data.datasets[0].data[0] += 1;
-    myPieChart.data.datasets[0].data[1] -= 1;
+    let newPercent = time_based(start, end);
+    myPieChart.data.datasets[0].data[0] = newPercent;
+    myPieChart.data.datasets[0].data[1] = 100-newPercent;
     myPieChart.update();
+    // time_based(start, end);
   }
 }
-// myLinemyPieChartChart.update(); // Calling update now animates the position of March from 90 to 50.
 
-setInterval(changeData, 1000)
+function time_based(start, end) {
+  let now = Date.parse(new Date());
+  let percent = ((now-start) / (end-start))*100;
+  console.log("%s%%",percent.toFixed(2));
+  return percent;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// var chart = new Chart(ctx, {
-//     // The type of chart we want to create
-//     type: 'line',
-//
-//     // The data for our dataset
-//     data: {
-//         labels: ["January", "February", "March", "April", "May", "June", "July"],
-//         datasets: [{
-//             label: "My First dataset",
-//             backgroundColor: 'rgb(255, 99, 132)',
-//             borderColor: 'rgb(255, 99, 132)',
-//             data: [0, 10, 5, 2, 20, 30, 45],
-//         }]
-//     },
-//
-//     // Configuration options go here
-//     options: {}
-// });
+setInterval(changeData, 1000) // keep this == to the animation timeout
