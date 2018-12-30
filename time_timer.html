@@ -90,12 +90,10 @@
 <script>
 /*
 TODO
-add % mode for times other than just a second. (and many more hands probably)
 click to start / stop timer.
-somehow enter in a countdown value.
+//somehow enter in a countdown value.
 have a sound go off when it finishes.
 add pause feature.
-fix the circle not closing (possibly by incrementing the counter by 2 so it ends up with a z index higher than the starting patch. or possibly by always starting it at 12 o clock!)
 */
   const secondHand = document.querySelector('.second-hand');
   const clockFace = document.querySelector('.clock-face');
@@ -148,15 +146,15 @@ fix the circle not closing (possibly by incrementing the counter by 2 so it ends
     if (minHands.length) {
       console.log(minHands)
       for (let i =0; i<minHands.length; i++){
-        minHands[i].classList.remove("hand")    
+        minHands[i].classList.remove("hand")
       }
-     } 
+     }
   }
 
   function updateSeconds() {
     const now = new Date();
     let seconds = now.getSeconds();
-    
+
     // if (seconds % 10 == 0) {
     //   resetHands() //clear clock after 60s
     // }
@@ -173,7 +171,7 @@ fix the circle not closing (possibly by incrementing the counter by 2 so it ends
       minsHand2.style.transform = `rotate(${secondsDegrees}deg)`;
       minsHand2.style.zIndex=seconds;
     }
-    
+
   }
   // setMask();
   setInterval(updateSeconds, 1000);

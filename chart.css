@@ -7,3 +7,25 @@
      transform: translate(-50%, -50%); /* This is a shorthand of
                                           translateX(-50%) and translateY(-50%) */
  }
+
+.finished {
+  animation: pulse 5s infinite;
+}
+
+/* @-webkit-keyframes pulse {
+0%   { opacity: 0; }
+100% { opacity: 1; }
+}
+@-moz-keyframes pulse {
+0%   { opacity: 0; }
+100% { opacity: 1; }
+}
+@-o-keyframes pulse {
+0%   { opacity: 0; }
+100% { opacity: 1; }
+} */
+@keyframes pulse {
+0%   { opacity: .5; }
+50% { opacity: 1; }
+100% { opacity: .5; }
+}
