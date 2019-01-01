@@ -3,17 +3,21 @@
 navigator.wakeLock.request("display").then(
     function successFunction() {
         // success
+        console.log("display wakelock success")
     },
     function errorFunction() {
         // error
-    }
+        console.log("display wakelock error")
+    });
 //here system indicates CPU, GPU, radio, wifi etc.
 navigator.wakeLock.request("system").then(
     function successFunction() {
         // success
+        console.log("system wakelock success")
     },
     function errorFunction() {
         // error
+        console.log("system wakelock error")
     }
 );
 //release() is used to release the lock.
