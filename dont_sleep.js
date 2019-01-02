@@ -1,3 +1,5 @@
+// wakeLock requires https and is currently very experimental.
+// I think it's best if this branch is left alone while other technology is considered.
 //navigator.wakeLock is the main standby API property.
 //request method requests the computer to not enter standby mode. Here "display" indicates that the monitor shouldn't enter standby mode.
 navigator.wakeLock.request("display").then(
