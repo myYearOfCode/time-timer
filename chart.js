@@ -25,12 +25,14 @@ Chart.defaults.global.legend.display = false;
 
 // I would like to have form elements for
 // x toggle pingpong on off
-// set interval
+// x set interval
 // pause timer
 // x start!
-
+// I would like the form to be big and centered on initial load
+// I would like the form to fade out after submission.
 
 function startRunning(){
+  document.getElementById('form').classList.add("hidden"); // fade out controls
   duration = document.getElementById("duration").value;
   active = true;
   start = Date.parse(new Date());
@@ -71,6 +73,7 @@ let finished = false;
 let countType = true;
 let animation_duration = 1000;
 var countingUp = "";
+var countingDown = "";
 // For a pie chart
 var myPieChart = new Chart(ctx,{
     type: 'pie',
@@ -112,6 +115,10 @@ function countUp() {
     countType = !countType;
     resetData()
   }
+  if (myPieChart.data.datasets[0].data[0] >= 100  && !pingPong && active){
+    active = false;
+    animationEnd();
+  }
 }
 
 function countDown() {
@@ -130,6 +137,17 @@ function countDown() {
     countType = !countType;
     resetData()
   }
+  if (myPieChart.data.datasets[0].data[0] <= 0  && !pingPong && active){
+    active = false;
+    animationEnd();
+  }
+}
+
+function animationEnd(){
+  console.log('animation finished');
+  resetData();
+  document.getElementById('form').classList.remove("hidden"); // fade out controls
+  document.getElementById('form').classList.add("visible"); // fade out controls
 }
 
 function resetData() {
