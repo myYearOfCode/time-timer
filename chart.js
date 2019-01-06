@@ -54,51 +54,47 @@ var myPieChart = new Chart(ctx,{
 });
 
 function countUp() {
-  if (myPieChart.data.datasets[0].data[0] <100 && finished == false){
+  myPieChart.data.datasets[0].backgroundColor = [
+    'rgba(255, 0, 0, 1)',
+    'rgba(255, 255, 255, 1)'
+  ]
+  if (myPieChart.data.datasets[0].data[0] <100){
     let newPercent = time_based(start, end);
     myPieChart.data.datasets[0].data[0] = newPercent;
     myPieChart.data.datasets[0].data[1] = 100-newPercent;
     myPieChart.update();
-    // time_based(start, end);
+
   }
+
   if (myPieChart.data.datasets[0].data[0] == 100){
     console.log('count up. setting class to finished');
-    // finished = true;
     countType = !countType;
-    // let element = document.querySelector(".chart");
-    // element.classList.add("finished")
     resetData()
   }
 }
 
 function countDown() {
-  let element = document.querySelector(".chart");
-  element.classList.remove("finished")
-  console.log(myPieChart.data.datasets[0].data[0])
+  myPieChart.data.datasets[0].backgroundColor = [
+    'rgba(0, 255, 0, 1)',
+    'rgba(255, 255, 255, 1)'
+  ]
+
   if (myPieChart.data.datasets[0].data[0] != 0){
     let newPercent = time_based(start, end);
     myPieChart.data.datasets[0].data[0] = 100-newPercent;
     myPieChart.data.datasets[0].data[1] = newPercent;
     myPieChart.update();
-    // time_based(start, end);
   }
-  if (myPieChart.data.datasets[0].data[0] == 0 && finished == false){
+  if (myPieChart.data.datasets[0].data[0] == 0){
     console.log('countdown. setting class to finished');
-    // finished = true;
     countType = !countType;
-    // let element = document.querySelector(".chart");
-    // element.classList.add("finished")
     resetData()
   }
 }
 
 function resetData() {
-    // myPieChart.data.datasets[0].data[0] = 0;
-    // myPieChart.data.datasets[0].data[1] = 100;
-    // myPieChart.update();
     start = Date.parse(new Date());
     end = start + (duration * 1000);
-    // let finished = false;
     if (countType){
       clearInterval(countingDown);
       countingUp = setInterval(countUp, animation_duration)
@@ -106,7 +102,6 @@ function resetData() {
     else {
       clearInterval(countingUp);
       countingDown = setInterval(countDown, animation_duration)
-
     }
 }
 
