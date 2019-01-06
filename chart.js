@@ -31,10 +31,7 @@ Chart.defaults.global.legend.display = false;
 
 
 function startRunning(){
-  do {
-    duration = prompt("how many seconds would you like to wait?");
-  } while (duration <=0 || isNaN(duration));
-
+  duration = document.getElementById("duration").value;
   active = true;
   start = Date.parse(new Date());
   end = start + (duration * 1000);
@@ -46,13 +43,15 @@ function togglePingPong(){
   console.log("pingPong is "+ pingPong + "\n");
 }
 
-function updateSliderValue(){
+function updateDuration(){
   console.log(document.getElementById("duration").value);
 }
+
 function init(){
 document.getElementById("startButton").addEventListener('click', function(){ startRunning(); return false; });
 document.getElementById("togglePingPong").addEventListener('click', function(){ togglePingPong(); return false; });
-document.getElementById("duration").addEventListener('drag', function(){ updateSliderValue(); return false; });
+document.getElementById("duration").addEventListener('drag', function(){ updateDuration(); return false; });
+document.getElementById("form").addEventListener('submit', function(event){ event.preventDefault(); startRunning(); return false; });
 //     // document.getElementById("form").addEventListener("click", function(event){
 //     //   event.preventDefault()
 //     // });
