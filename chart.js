@@ -31,7 +31,10 @@ Chart.defaults.global.legend.display = false;
 
 
 function startRunning(){
-  duration = prompt("how many seconds would you like to wait?");
+  do {
+    duration = prompt("how many seconds would you like to wait?");
+  } while (duration <=0 || isNaN(duration));
+
   active = true;
   start = Date.parse(new Date());
   end = start + (duration * 1000);
@@ -43,9 +46,13 @@ function togglePingPong(){
   console.log("pingPong is "+ pingPong + "\n");
 }
 
+function updateSliderValue(){
+  console.log(document.getElementById("duration").value);
+}
 function init(){
 document.getElementById("startButton").addEventListener('click', function(){ startRunning(); return false; });
 document.getElementById("togglePingPong").addEventListener('click', function(){ togglePingPong(); return false; });
+document.getElementById("duration").addEventListener('drag', function(){ updateSliderValue(); return false; });
 //     // document.getElementById("form").addEventListener("click", function(event){
 //     //   event.preventDefault()
 //     // });
@@ -89,7 +96,7 @@ var myPieChart = new Chart(ctx,{
 });
 
 function countUp() {
-  console.log("countup")
+  // console.log("countup")
   myPieChart.data.datasets[0].backgroundColor = [
     'rgba(255, 0, 0, 1)',
     'rgba(255, 255, 255, 1)'
@@ -101,7 +108,7 @@ function countUp() {
     myPieChart.update();
   }
 
-  if (myPieChart.data.datasets[0].data[0] == 100 && pingPong){
+  if (myPieChart.data.datasets[0].data[0] >= 100 && pingPong){
     console.log('done counting up.');
     countType = !countType;
     resetData()
@@ -119,7 +126,7 @@ function countDown() {
     myPieChart.data.datasets[0].data[1] = newPercent;
     myPieChart.update();
   }
-  if (myPieChart.data.datasets[0].data[0] == 0  && pingPong){
+  if (myPieChart.data.datasets[0].data[0] <= 0  && pingPong){
     console.log('done counting down.');
     countType = !countType;
     resetData()
