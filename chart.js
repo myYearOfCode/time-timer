@@ -68,6 +68,12 @@ function changeData() {
   }
 }
 
+function resetData() {
+    myPieChart.data.datasets[0].data[0] = 0;
+    myPieChart.data.datasets[0].data[1] = 100;
+    myPieChart.update();
+}
+
 function time_based(start, end) {
   let now = Date.parse(new Date());
   let percent = ((now-start) / (end-start))*100;
