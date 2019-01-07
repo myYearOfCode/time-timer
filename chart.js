@@ -30,15 +30,18 @@ Chart.defaults.global.legend.display = false;
 // x start!
 // I would like the form to be big and centered on initial load
 // x I would like the form to fade out after submission.
-// I would like to be able to run it a second time without refreshing
+// x I would like to be able to run it a second time without refreshing
+// esc in pingpong mode brings up dialog box.
+// I would like an "it has been x minutes. start again? clean dialog at end."
 
 function startRunning(){
   resetData();
-  document.getElementById('form').classList.add("hidden"); // fade out controls
+  document.getElementById('form').classList.add("hidden");
+  document.getElementById('form').classList.remove("visible");
   duration = document.getElementById("duration").value;
   active = true;
   start = Date.parse(new Date());
-  end = start + (duration * 1000);
+  end = start + (duration * durationMultiplier);
   // countingUp = setInterval(countUp, animation_duration) // keep this == to the animation timeout
 }
 
@@ -46,23 +49,40 @@ function togglePingPong(){
   pingPong = !pingPong;
   console.log("pingPong is "+ pingPong + "\n");
 }
-
-function updateDuration(){
-  console.log(document.getElementById("duration").value);
+function setDurationMultiplier(){
+  if (document.getElementById("durMinutes").checked){
+    durationMultiplier = 60000;
+  }
+  else { durationMultiplier = 1000;}
 }
 
 function init(){
   // event handlers
-document.getElementById("startButton").addEventListener('click', function(){ startRunning(); return false; });
-document.getElementById("togglePingPong").addEventListener('click', function(){ togglePingPong(); return false; });
-// document.getElementById("duration").addEventListener('drag', function(){ updateDuration(); return false; });
-document.getElementById("form").addEventListener('submit', function(event){ event.preventDefault(); startRunning(); return false; });
+  document.getElementById("startButton")
+        .addEventListener('click', function(){ startRunning(); return false; });
+  document.getElementById("togglePingPong")
+        .addEventListener('click', function(){ togglePingPong(); return false; });
+  document.getElementById("form")
+        .addEventListener('submit', function(event){
+          event.preventDefault();
+          startRunning();
+          return false;
+        });
+document.getElementById('durMinutes').addEventListener('click', function(){
+          setDurationMultiplier();
+          return false;
+        });
+document.getElementById('durSeconds').addEventListener('click', function(){
+          setDurationMultiplier();
+          return false;
+        });
 }
 //
-window.onload = init;
+window.onload = init; // assign event handlers when the window is loaded.
 
-// ask for user input on timer length
+
 let duration = ""
+let durationMultiplier = 1
 let active = false;
 var start = Date.parse(new Date());
 let pingPong = false;
@@ -72,6 +92,7 @@ let countType = true;
 let animation_duration = 1000;
 var countingUp = "";
 var countingDown = "";
+
 // For a pie chart
 var myPieChart = new Chart(ctx,{
     type: 'pie',
@@ -111,10 +132,10 @@ function countUp() {
   if (myPieChart.data.datasets[0].data[0] >= 100 && pingPong){
     console.log('done counting up.');
     countType = !countType;
-    resetData()
+    resetDataPingPong()
   }
   if (myPieChart.data.datasets[0].data[0] >= 100  && !pingPong && active){
-    active = false;
+    active = false; // this makes it so this end condition only runs once.
     animationEnd();
   }
 }
@@ -133,10 +154,10 @@ function countDown() {
   if (myPieChart.data.datasets[0].data[0] <= 0  && pingPong){
     console.log('done counting down.');
     countType = !countType;
-    resetData()
+    resetDataPingPong()
   }
   if (myPieChart.data.datasets[0].data[0] <= 0  && !pingPong && active){
-    active = false;
+    active = false; // this makes it so this end condition only runs once.
     animationEnd();
   }
 }
@@ -144,8 +165,12 @@ function countDown() {
 function animationEnd(){
   console.log('animation finished');
   resetData();
+  if (!pingPong){
+    clearInterval(countingDown);
+    clearInterval(countingUp);
+  }
   document.getElementById('form').classList.remove("hidden"); // fade out controls
-  document.getElementById('form').classList.add("visible"); // fade out controls
+  document.getElementById('form').classList.add("visible"); // fade in controls
 }
 
 function resetData() {
@@ -154,6 +179,20 @@ function resetData() {
   start = Date.parse(new Date());
   end = start + (duration * 1000);
   clearInterval(countingUp);
+  if (countType){
+    clearInterval(countingDown);
+    countingUp = setInterval(countUp, animation_duration)
+  }
+  else {
+    clearInterval(countingUp);
+    countingDown = setInterval(countDown, animation_duration)
+  }
+}
+
+function resetDataPingPong() {
+  start = Date.parse(new Date());
+  end = start + (duration * durationMultiplier);
+  // clearInterval(countingUp);
   if (countType){
     clearInterval(countingDown);
     countingUp = setInterval(countUp, animation_duration)
