@@ -28,7 +28,7 @@ Chart.defaults.global.legend.display = false;
 // x set interval
 // pause timer
 // x start!
-// I would like the form to be big and centered on initial load
+// x I would like the form to be big and centered on initial load
 // x I would like the form to fade out after submission.
 // x I would like to be able to run it a second time without refreshing
 // esc in pingpong mode brings up dialog box.
@@ -36,9 +36,9 @@ Chart.defaults.global.legend.display = false;
 
 function startRunning(){
   resetData();
-  document.getElementById('form').classList.add("hidden");
+  // document.getElementById('form').classList.add("hidden");
   document.getElementById('myModal').classList.add("hidden");
-  document.getElementById('form').classList.remove("visible");
+  // document.getElementById('form').classList.remove("visible");
   document.getElementById('myModal').classList.remove("visible");
   duration = document.getElementById("duration").value;
   active = true;
@@ -51,6 +51,7 @@ function togglePingPong(){
   pingPong = !pingPong;
   console.log("pingPong is "+ pingPong + "\n");
 }
+
 function setDurationMultiplier(){
   if (document.getElementById("durMinutes").checked){
     durationMultiplier = 60000;
@@ -58,12 +59,10 @@ function setDurationMultiplier(){
   else { durationMultiplier = 1000;}
 }
 
-function showModalWindow (e) {
-    if(e.key === "Escape") {
-      document.getElementById('myModal').classList.remove("hidden");
-      document.getElementById('myModal').classList.add("visible");
-    }
-    console.log('key' + e);
+function showModalWindow () {
+  document.getElementById('myModal').style.display = "block";
+  document.getElementById('myModal').classList.remove("hidden");
+  document.getElementById('myModal').classList.add("visible");
 }
 
 function init(){
@@ -86,7 +85,8 @@ document.getElementById('durSeconds').addEventListener('click', function(){
           setDurationMultiplier();
           return false;
         });
-// window.addEventListener('keypress', function(){ showModalWindow(e); return false;});
+document.getElementById("settings")
+        .addEventListener('click', function(){ showModalWindow(); return false; });
 
 }
 //
@@ -98,7 +98,7 @@ let durationMultiplier = 60000
 let active = false;
 var start = Date.parse(new Date());
 let pingPong = false;
-var end = start + (duration * 60000);
+var end = start + (duration * durationMultiplier);
 let finished = false;
 let countType = true;
 let animation_duration = 1000;
@@ -133,22 +133,15 @@ var myPieChart = new Chart(ctx,{
 // Get the modal
 var modal = document.getElementById('myModal');
 
-// Get the button that opens the modal
-// var btn = document.getElementById("myBtn");
-
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal
-// btn.onclick = function() {
-//   modal.style.display = "block";
-// }
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = "none";
 }
 // END MODAL CITY
+
 function countUp() {
   // console.log("countup")
   myPieChart.data.datasets[0].backgroundColor = [
@@ -202,8 +195,8 @@ function animationEnd(){
     clearInterval(countingDown);
     clearInterval(countingUp);
   }
-  document.getElementById('form').classList.remove("hidden"); // fade out controls
-  document.getElementById('form').classList.add("visible"); // fade in controls
+  // document.getElementById('form').classList.remove("hidden"); // fade out controls
+  // document.getElementById('form').classList.add("visible"); // fade in controls
 }
 
 function resetData() {
@@ -241,5 +234,6 @@ function time_percent(start, end) {
   let now = Date.parse(new Date());
   let percent = ((now-start) / (end-start))*100;
   console.log("%s%%",percent.toFixed(2));
+  document.getElementById('percent').innerHTML = percent.toFixed(2) ;
   return percent;
 }
