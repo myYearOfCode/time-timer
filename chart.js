@@ -29,15 +29,17 @@ Chart.defaults.global.legend.display = false;
 // pause timer
 // x start!
 // I would like the form to be big and centered on initial load
-// I would like the form to fade out after submission.
+// x I would like the form to fade out after submission.
+// I would like to be able to run it a second time without refreshing
 
 function startRunning(){
+  resetData();
   document.getElementById('form').classList.add("hidden"); // fade out controls
   duration = document.getElementById("duration").value;
   active = true;
   start = Date.parse(new Date());
   end = start + (duration * 1000);
-  countingUp = setInterval(countUp, animation_duration) // keep this == to the animation timeout
+  // countingUp = setInterval(countUp, animation_duration) // keep this == to the animation timeout
 }
 
 function togglePingPong(){
@@ -50,15 +52,11 @@ function updateDuration(){
 }
 
 function init(){
+  // event handlers
 document.getElementById("startButton").addEventListener('click', function(){ startRunning(); return false; });
 document.getElementById("togglePingPong").addEventListener('click', function(){ togglePingPong(); return false; });
-document.getElementById("duration").addEventListener('drag', function(){ updateDuration(); return false; });
+// document.getElementById("duration").addEventListener('drag', function(){ updateDuration(); return false; });
 document.getElementById("form").addEventListener('submit', function(event){ event.preventDefault(); startRunning(); return false; });
-//     // document.getElementById("form").addEventListener("click", function(event){
-//     //   event.preventDefault()
-//     // });
-//     document.getElementById('form').onsubmit = startRunning;
-    console.log('hi')
 }
 //
 window.onload = init;
@@ -151,16 +149,19 @@ function animationEnd(){
 }
 
 function resetData() {
-    start = Date.parse(new Date());
-    end = start + (duration * 1000);
-    if (countType){
-      clearInterval(countingDown);
-      countingUp = setInterval(countUp, animation_duration)
-    }
-    else {
-      clearInterval(countingUp);
-      countingDown = setInterval(countDown, animation_duration)
-    }
+  myPieChart.data.datasets[0].data[0] = 0;
+  myPieChart.data.datasets[0].data[1] = 100;
+  start = Date.parse(new Date());
+  end = start + (duration * 1000);
+  clearInterval(countingUp);
+  if (countType){
+    clearInterval(countingDown);
+    countingUp = setInterval(countUp, animation_duration)
+  }
+  else {
+    clearInterval(countingUp);
+    countingDown = setInterval(countDown, animation_duration)
+  }
 }
 
 // this returns a % of the time period
