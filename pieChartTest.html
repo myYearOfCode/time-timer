@@ -9,25 +9,33 @@
 </head>
 <body>
 <div class="chart">
-  <form id="form" class="startButton" >
-    <p>
-      <label for="togglePingPong">toggle pingpong.
-        <input type="checkbox" id="togglePingPong" name="toggle pingpong"></input>
-      </label>
-    </p>
-    <p>
-      <label for="duration"> timer duration
-        <input type="number" min="1" id="duration" max="60" value="1">
-      </label>
-        <input type="radio" id="durSeconds" name="durationUnit">Sec.
-        <input type="radio" id="durMinutes" name="durationUnit">Min.
-    </p>
-    <p>
-      <label for="startButton">
-        <button type="button" id="startButton" name="startButton" value=true>start timer.</button>
-      </label>
-    </p>
-  </form>
+  <div id="settings">settings</div>
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Settings for your timer.</p>
+      <form id="form" class="startButton" >
+        <p>
+          <label for="togglePingPong">toggle pingpong.
+            <input type="checkbox" id="togglePingPong" name="toggle pingpong"></input>
+          </label>
+        </p>
+        <p>
+          <label for="duration"> timer duration
+            <input type="number" min="1" id="duration" max="60" value="1">
+          </label>
+            <input type="radio" id="durSeconds" name="durationUnit">Sec.
+            <input type="radio" id="durMinutes" name="durationUnit" checked>Min.
+        </p>
+        <p>
+          <label for="startButton">
+            <button type="button" id="startButton" name="startButton" value=true>start timer.</button>
+          </label>
+        </p>
+      </form>
+    </div>
+  </div>
   <canvas id="myChart"></canvas>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
   <script src="./chart.js"></script>

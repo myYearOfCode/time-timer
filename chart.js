@@ -37,7 +37,9 @@ Chart.defaults.global.legend.display = false;
 function startRunning(){
   resetData();
   document.getElementById('form').classList.add("hidden");
+  document.getElementById('myModal').classList.add("hidden");
   document.getElementById('form').classList.remove("visible");
+  document.getElementById('myModal').classList.remove("visible");
   duration = document.getElementById("duration").value;
   active = true;
   start = Date.parse(new Date());
@@ -54,6 +56,14 @@ function setDurationMultiplier(){
     durationMultiplier = 60000;
   }
   else { durationMultiplier = 1000;}
+}
+
+function showModalWindow (e) {
+    if(e.key === "Escape") {
+      document.getElementById('myModal').classList.remove("hidden");
+      document.getElementById('myModal').classList.add("visible");
+    }
+    console.log('key' + e);
 }
 
 function init(){
@@ -76,17 +86,19 @@ document.getElementById('durSeconds').addEventListener('click', function(){
           setDurationMultiplier();
           return false;
         });
+// window.addEventListener('keypress', function(){ showModalWindow(e); return false;});
+
 }
 //
 window.onload = init; // assign event handlers when the window is loaded.
 
 
 let duration = ""
-let durationMultiplier = 1
+let durationMultiplier = 60000
 let active = false;
 var start = Date.parse(new Date());
 let pingPong = false;
-var end = start + (duration * 1000);
+var end = start + (duration * 60000);
 let finished = false;
 let countType = true;
 let animation_duration = 1000;
@@ -116,6 +128,27 @@ var myPieChart = new Chart(ctx,{
     }
 });
 
+
+//MODAL CITY
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+// var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+// btn.onclick = function() {
+//   modal.style.display = "block";
+// }
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+// END MODAL CITY
 function countUp() {
   // console.log("countup")
   myPieChart.data.datasets[0].backgroundColor = [
